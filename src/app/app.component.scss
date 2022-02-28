@@ -1,0 +1,37 @@
+.set-height {
+  height: 150px;
+}
+.text-error{
+  font-size: 12px;
+  color: red;
+  margin-top: 4px;
+}
+.fault-name{
+  width: 700px;
+  word-wrap: normal;
+}
+.form-control[readonly] {
+  background-color: white;
+}
+.custom-l {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.custom-border {
+  border-top: solid 1px;
+  border-color: #dee2e6;
+}
+.custom-top {
+  margin-top: 65px;
+}
+@media all and (min-width: 768px ){
+  .button-l{
+    height: fit-content;
+  }
+}
+.border-custom {
+  border-top: solid 1px #dee2e6;
+  border-bottom: solid 1px #dee2e6;
+  border-left: solid 1px #dee2e6;
+}

@@ -1,0 +1,126 @@
+<div class="container-fluid">
+  <div class="row" style="margin: 20px 20px">
+    <div class="col-md-5 border-custom">
+      <div [formGroup]="form">
+        <h5 class="d-flex justify-content-center font-weight-bold mt-3">New Task</h5>
+        <div class="row" style="margin: 20px 20px">
+          <div class="col-md-12 mt-5">
+            <input placeholder="Add new task ..." type="text" width="100%" class="form-control" formControlName="chooseTitle" maxlength="55">
+          </div>
+          <div class="col-md-12"
+               *ngIf="submitted && f.chooseTitle.errors || f.chooseTitle.errors && (f.chooseTitle.dirty || f.chooseTitle.touched)">
+            <div class="text-error">
+              <div *ngIf="f.chooseTitle.errors.required">
+                Title is a required
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 mt-3">
+            <div class="form-group">
+              <label>Description</label>
+              <textarea type="text" class="form-control w-100 set-height" formControlName="chooseDescription"></textarea>
+            </div>
+          </div>
+          <div class="col-md-6 mt-3">
+            <div class="form-group">
+              <label>Due Date</label>
+              <input class="form-control w-100" (ngModelChange)="changeDueDate()" type="date" formControlName="chooseDueDate">
+              <div class="text-error" *ngIf="isSmaller">
+                Do not accept days in the past as due date
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mt-3">
+            <div class="form-group">
+              <label>Priority</label>
+              <kendo-dropdownlist class="w-100 form-control custom-l"
+                                  formControlName="choosePriority"
+                                  [data]="dataPriority"
+                                  [textField]="'name'"
+                                  [valueField]="'value'"
+                                  [valuePrimitive]="true">
+              </kendo-dropdownlist>
+            </div>
+          </div>
+          <div class="col-md-12 mt-5">
+            <button class="btn btn-success w-100" (click)="addTodoList()">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7 border">
+      <div style="margin: 10px 30px">
+        <h5 class="d-flex justify-content-center font-weight-bold mt-3">To Do List</h5>
+        <div class="custom-top">
+          <input type="text" class="form-control" placeholder="Search ..." (input)="onFilter()" [(ngModel)]="input">
+        </div>
+        <div *ngFor="let item of tempTodoList" class="border mt-3">
+          <div class="row border" style="margin: 20px 20px">
+            <div class="col-md-7" style="padding: 10px 10px">
+              <div class="col-md-7 row" style="padding: 10px 0px; margin-left: 10px">
+                <input style="margin-top: 7px" type="checkbox" class=" mr-2" [(ngModel)]="item.checked" (ngModelChange)="changeCheckbox()">
+                <div class="">
+                  {{item.title}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5 d-flex justify-content-end mt-1" style="padding: 10px 10px">
+              <button class=" btn btn-info mr-3 button-l" (click)="detail(item)"><span style="padding: 0px 9px">Detail</span></button>
+              <button class=" btn btn-danger button-l" (click)="delete(item)">Remove</button>
+            </div>
+          </div>
+          <div class="custom-border" *ngIf="item.isChange">
+            <div class="row" style="margin: 20px 2px">
+              <div class="col-md-12 mt-5">
+                <input type="text" width="100%" class="form-control" [(ngModel)]="titleEdit" (ngModelChange)="changeTitleEdit()">
+              </div>
+              <div class="text-error col-md-12" *ngIf="isRequired">
+                Title is a required
+              </div>
+              <div class="col-md-12 mt-3">
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea type="text" class="form-control w-100 set-height" [(ngModel)]="descriptionEdit"></textarea>
+                </div>
+              </div>
+              <div class="col-md-6 mt-3">
+                <div class="form-group">
+                  <label>Due Date</label>
+                  <input class="form-control w-100" type="date" [(ngModel)]="dueDateEdit" (ngModelChange)="changeDueDateEdit()">
+                  <div class="text-error" *ngIf="isSmallerEdit">
+                    Do not accept days in the past as due date
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 mt-3">
+                <div class="form-group">
+                  <label>Priority</label>
+                  <kendo-dropdownlist class="w-100 form-control custom-l"
+                                      [(ngModel)]="priorityEdit"
+                                      [data]="dataPriority"
+                                      [textField]="'name'"
+                                      [valueField]="'value'"
+                                      [valuePrimitive]="true">
+                  </kendo-dropdownlist>
+                </div>
+              </div>
+              <div class="col-md-12 mt-5">
+                <button class="btn btn-success w-100" (click)="update()">update</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border mt-5"style="background-color: rgb(224 224 224); margin: 0px -17px" *ngIf="checkBulk">
+        <div class="row" style="margin: 20px 20px">
+          <div class="col-md-4 mt-2">Bulk Action:</div>
+          <div class="col-md-8 d-flex justify-content-end">
+            <button class=" btn btn-primary mr-3" style="padding: 0px 25px" (click)="deleteMany()">Done</button>
+            <button class=" btn btn-danger" (click)="deleteMany()">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
